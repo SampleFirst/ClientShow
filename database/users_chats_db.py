@@ -127,6 +127,11 @@ class Database:
         else:
             await self.col2.delete_many({'id': int(user_id)})
 
+    async def delete_all_data(self):
+        await self.col.delete_many({})
+        await self.col2.delete_many({})
+        await self.grp.delete_many({})
+        await self.grp2.delete_many({})
 
     async def get_banned(self):
         users = self.col.find({'ban_status.is_banned': True})
