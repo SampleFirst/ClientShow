@@ -229,4 +229,3 @@ class Database:
 
 
 db = Database(DATABASE_NAME)
-db2 = Database(DATABASE_NAME)
