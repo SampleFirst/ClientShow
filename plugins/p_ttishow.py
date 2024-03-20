@@ -284,16 +284,23 @@ async def list_users(bot, message):
 
 @Client.on_message(filters.command('chats') & filters.user(ADMINS))
 async def list_chats(bot, message):
-    msg = await message.reply('Getting List Of Chats')
+    msg = await message.reply('Getting List Of chats')
     chats = await db.get_all_chats()
     out = "Chats Saved In DB Are:\n\n"
-    async for chat in chats:
-        total_members = await bot.get_chat_members_count(chat['id'])
-        out += f"**Title:** `{chat['title']}`\n**- ID:** `{chat['id']}`\n**- Total Members:** `{total_members}`\n"
+    for chat in chats:
+        try:
+            chat_info = await bot.get_chat(chat['id'])
+            chat_title = chat_info.title
+            total_members = chat_info.members_count
+        except Exception as e:
+            chat_title = chat['title']
+            total_members = "N/A"
+            print(f"Error getting info for chat ID {chat['id']}: {e}")
+        
+        out += f"**Title:** `{chat_title}`\n**- ID:** `{chat['id']}`\n**- Members Count:** `{total_members}`"
         if chat['chat_status']['is_disabled']:
-            out += '( Disabled Chat )\n'
-        else:
-            out += '\n'
+            out += '( Disabled Chat )'
+        out += '\n'
     try:
         await msg.edit_text(out)
     except MessageTooLong:
