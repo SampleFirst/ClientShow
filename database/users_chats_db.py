@@ -221,6 +221,12 @@ class Database:
 
     async def get_all_chats(self):
         return ((await (self.grp.find({})).to_list(length=None))+(await (self.grp2.find({})).to_list(length=None)))
+        
+    async def get_db_size(self):
+        return (await self.db.command("dbstats"))['dataSize']
+
+
+
 
 db = Database(DATABASE_NAME)
 db2 = Database(DATABASE_NAME)
