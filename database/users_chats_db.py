@@ -5,7 +5,7 @@ from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_US
 
 class Database:
     
-    def __init__(self, uri, database_name):
+    def __init__(self, database_name):
         #primary db 
         self._client = motor.motor_asyncio.AsyncIOMotorClient(DATABASE_URI)
         self.db = self._client[database_name]
@@ -222,4 +222,4 @@ class Database:
     async def get_all_chats(self):
         return ((await (self.grp.find({})).to_list(length=None))+(await (self.grp2.find({})).to_list(length=None)))
 
-db = Database(DATABASE_URI, DATABASE_NAME) or Database(SECONDDB_URI, DATABASE_NAME)
+db = Database(DATABASE_NAME)
