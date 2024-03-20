@@ -222,7 +222,4 @@ class Database:
     async def get_all_chats(self):
         return ((await (self.grp.find({})).to_list(length=None))+(await (self.grp2.find({})).to_list(length=None)))
 
-db = Database(DATABASE_URI, DATABASE_NAME)
-db = Database(SECONDDB_URI, DATABASE_NAME)
-
-
+db = Database(DATABASE_URI, DATABASE_NAME) or Database(SECONDDB_URI, DATABASE_NAME)
