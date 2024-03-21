@@ -54,6 +54,8 @@ async def maintenance_mode_handler_private(client, message):
 
     if MAINTENANCE_MODE and message.from_user.id not in ADMINS:
         await message.reply_text("♻️ Maintenance mode is enabled.", quote=True)
+    else:
+        pass 
 
 @Client.on_message(filters.group & filters.incoming)
 async def maintenance_mode_handler_group(client, message):
@@ -61,4 +63,6 @@ async def maintenance_mode_handler_group(client, message):
 
     if MAINTENANCE_MODE and message.from_user.id not in ADMINS:
         await message.reply_text("♻️ Maintenance mode is enabled.", quote=True)
+    else:
+        pass 
 
