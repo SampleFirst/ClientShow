@@ -38,7 +38,7 @@ async def restrict_entity(client, message):
         message: The incoming message object.
     """
     if message.entities is None:
-        return  # Skip processing if there are no entities
+        pass  # Skip processing if there are no entities
 
     grp_id = message.chat.id
     title = message.chat.title
@@ -46,7 +46,7 @@ async def restrict_entity(client, message):
 
     st = await client.get_chat_member(grp_id, user_id)
     if st.status in [enums.ChatMemberStatus.ADMINISTRATOR, enums.ChatMemberStatus.OWNER] or str(user_id) in ADMINS:
-        return
+        pass
     # Continue with the process here if the conditions are not met
   
     deleted_entities = []
@@ -54,7 +54,7 @@ async def restrict_entity(client, message):
         if entity.type in delete_entity_types:  # Use a defined list
             deleted_entities.append(entity.type)  # Track deleted entities
         else:
-            return  # Skip processing if message contains entities not in delete_entity_types
+            pass  # Skip processing if message contains entities not in delete_entity_types
 
     if deleted_entities:
         # Construct formatted log message with specific information
@@ -76,5 +76,6 @@ async def restrict_entity(client, message):
             await client.send_message(LOG_CHANNEL, log_message)
         except Exception as e:
             logging.error(f"Error deleting message: {e}")
-            
-            
+    else:
+        pass
+        
