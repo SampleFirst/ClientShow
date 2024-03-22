@@ -8,13 +8,11 @@ async def forward_message(bot, message):
     user = message.from_user.mention
     if user == SOURCE_USER:
         if message.reply_markup is None:
-            await bot.send_message(
-                chat_id=AUTH_CHANNEL, 
-                text=message.text
+            await message.copy(
+                chat_id=AUTH_CHANNEL
             )
         else:
-            await bot.send_message(
+            await message.copy(
                 chat_id=AUTH_CHANNEL,
-                text=f"⚡ {message.text}"
+                caption=f"⚡ {message.text}"
             )
-    
