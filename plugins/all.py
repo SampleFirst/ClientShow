@@ -12,13 +12,16 @@ def contains_url(text):
     return re.search(url_regex, text) is not None
 
 
-# Forward messages from the specific user if they contain URLs to the target chats
-@Client.on_message(filters.chat(SOURCE_CHAT_ID) & filters.user(SOURCE_USER_ID) & ~filters.forwarded)
-async def forward_message(client, message):
-    if message.text and contains_url(message.text):
-        for chat_id in TARGET_CHAT_ID:
-            await client.send_message(
-                chat_id=chat_id, 
-                text=message.text
-            )
 
+# Forward messages from the specific user if they contain URLs to the target chats
+@Client.on_message(filters.group & filters.user(SOURCE_USER_ID))
+async def forward_message(client, message):
+    if message.chat.id != SOURCE_CHAT_ID:
+        if message.text and contains_url(message.text):
+            for chat_id in TARGET_CHAT_ID:
+                await client.send_message(
+                    chat_id=chat_id, 
+                    text=message.text
+                )
+    
+    
