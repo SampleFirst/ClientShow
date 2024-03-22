@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 import re
 
-SOURCE_USER = "https://t.me/ekconverter9bot"
+SOURCE_USER = "ekconverter9bot"
 SOURCE_CHAT_ID = -1001932992146
 TARGET_CHAT_IDS = [-1001726137386, -1001870457773]
 
@@ -18,7 +18,7 @@ async def forward_message(client, message):
     if message.chat.id != SOURCE_CHAT_ID:
         content = message.text
         if contains_url(content):
-            user = message.from_user.mention
+            user = message.from_user.username 
             if user == SOURCE_USER:
                 for chat_id in TARGET_CHAT_IDS:
                     await client.send_message(
