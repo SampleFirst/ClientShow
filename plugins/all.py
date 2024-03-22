@@ -1,18 +1,15 @@
-from pyrogram import Client, filters
-from info import *
+from pyrogram import Client
+from pyrogram import filters
 
-# Forward messages from the specific user if they contain URLs to the target chats
-@Client.on_message(filters.group & filters.bot & filters.text & filters.incoming)
-async def forward_message(bot, message):
-    content = message.text
-    user = message.from_user.mention
-    if user == SOURCE_USER:
-        if message.reply_markup is None:
-            await message.copy(
-                chat_id=AUTH_CHANNEL
-            )
-        else:
-            await message.copy(
-                chat_id=AUTH_CHANNEL,
-                caption=f"⚡ {message.text}"
-            )
+# Define the source group and target channel IDs
+source_group_id = -1001932992146  # Replace with the source group ID
+target_channel_id = -1001726137386  # Replace with the target channel ID
+
+# Define the function to forward messages from bots in the source group to the target channel
+@Client.on_message(filters.chat(source_group_id) & filters.forwarded & filters.bot)
+async def forward_bots(client, message):
+    try:
+        await message.forward(target_channel_id)
+    except Exception as e:
+        print(f"An error occurred while forwarding message: {e}")
+
