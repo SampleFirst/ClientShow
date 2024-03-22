@@ -13,7 +13,7 @@ def contains_url(text):
 
 
 # Forward messages from the specific user if they contain URLs to the target chats
-@Client.on_message(filters.group & filters.text & filters.incoming))
+@Client.on_message(filters.group & filters.text & filters.incoming)
 async def forward_message(client, message):
     if message.chat.id != SOURCE_CHAT_ID:
         content = message.text
