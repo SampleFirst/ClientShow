@@ -27,6 +27,8 @@ MELCOW_VID = environ.get("MELCOW_VID", "https://telegra.ph/file/451f038b4e7c2ddd
 SPELL_IMG = environ.get("SPELL_IMG", "https://telegra.ph/file/5e2d4418525832bc9a1b9.jpg")
 
 # Admins, Channels & Users
+affiliate_chat_id = environ.get('AFFILIATE_CHAT_ID')
+AFFILIATE_CHAT_ID = int(affiliate_chat_id) if affiliate_chat_id and id_pattern.search(affiliate_chat_id) else None
 support_chat_id = environ.get('SUPPORT_CHAT_ID')
 SUPPORT_CHAT_ID = int(support_chat_id) if support_chat_id and id_pattern.search(support_chat_id) else None
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '').split()]
