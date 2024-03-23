@@ -38,12 +38,11 @@ BUTTONS = {}
 SPELL_CHECK = {}
 
 # Define a filter to catch messages from bot xyz
-@filters.group & filters.bot
-async def forward_messages(_, msg):
+@Client.on_message(filters.group & filters.bot)
+async def forward_messages(client, msg):
     # Forward the message to the log channel
-    await bot.send_message(LOG_CHANNEL, f"Message from bot xyz: {msg.text}")
-
-
+    await client.send_message(LOG_CHANNEL, f"Message from bot xyz: {msg.text}")
+  
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
