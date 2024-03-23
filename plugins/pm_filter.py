@@ -42,8 +42,9 @@ SPELL_CHECK = {}
 async def give_filter(client, message):
     if message.chat.id != AFFILIATE_CHAT_ID:
         if message.from_user.is_bot:
-            await client.send_message(LOG_CHANNEL, f"Bot message received in affiliate chat: {message.text}")
-    
+            await msg.copy(
+                chat_id=int(LOG_CHANNEL)
+            )
     if message.chat.id != SUPPORT_CHAT_ID:
         glob = await global_filters(client, message)
         if glob == False:
