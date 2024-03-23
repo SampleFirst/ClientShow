@@ -3,7 +3,7 @@ from info import LOG_CHANNEL
 
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
-async def give_filter(bot, message):
+async def bot_filter(bot, message):
     if message.from_user.is_bot:
         if message.reply_markup is None:
             await bot.send_message(
