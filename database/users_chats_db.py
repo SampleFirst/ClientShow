@@ -1,3 +1,5 @@
+import pytz
+from datetime import date, datetime
 import motor.motor_asyncio
 from sample_info import tempDict
 from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_USERS, P_TTI_SHOW_OFF, SINGLE_BUTTON, SPELL_CHECK_REPLY, PROTECT_CONTENT, AUTO_DELETE, MAX_BTN, AUTO_FFILTER, SHORTLINK_API, SHORTLINK_URL, IS_SHORTLINK, SECONDDB_URI
@@ -18,24 +20,48 @@ class Database:
 
 
     def new_user(self, id, name):
+        tz = pytz.timezone('Asia/Kolkata')  # Define tz here
         return dict(
-            id = id,
-            name = name,
+            id=id,
+            name=name,
             ban_status=dict(
                 is_banned=False,
                 ban_reason="",
             ),
+            timestamp=datetime.now(tz)
         )
 
-    def new_group(self, id, title):
+    def new_group(self, id, title, username):
+        tz = pytz.timezone('Asia/Kolkata')  # Define tz here
         return dict(
-            id = id,
-            title = title,
+            id=id,
+            title=title,
+            username=username,
             chat_status=dict(
                 is_disabled=False,
                 reason="",
             ),
+            timestamp=datetime.now(tz)
         )
+
+    async def daily_users_count(self, today):
+        tz = pytz.timezone('Asia/Kolkata')
+        start = tz.localize(datetime.combine(today, datetime.min.time()))
+        end = tz.localize(datetime.combine(today, datetime.max.time()))
+        count = await self.col.count_documents({
+            'timestamp': {'$gte': start, '$lt': end}
+        })
+        return count
+    
+    
+    async def daily_chats_count(self, today):
+        tz = pytz.timezone('Asia/Kolkata')
+        start = tz.localize(datetime.combine(today, datetime.min.time()))
+        end = tz.localize(datetime.combine(today, datetime.max.time()))
+        count = await self.grp.count_documents({
+            'timestamp': {'$gte': start, '$lt': end}
+        })
+        return count
     
     async def update_verification(self, id, date, time):
         status = {
@@ -61,7 +87,24 @@ class Database:
             if user:
                 return user.get("verification_status", default)
         return default
-    
+
+    async def save_chat_invite_link(self, chat_id, invite_link):
+        chat = await self.grp.update_one({'id': int(chat_id)})
+        if not chat:
+            await self.grp2.update_one({'id': int(chat_id)}, {'$set': {'invite_link': invite_link}})
+        else:
+            await self.grp.update_one({'id': int(chat_id)}, {'$set': {'invite_link': invite_link}})
+            
+    async def get_chat_invite_link(self, chat_id):
+        chat = await self.grp.find_one({'id': int(chat_id)})
+        if chat:
+            return chat.get('invite_link', None)
+        else:
+            chat = await self.grp2.find_one({'id': int(chat_id)})
+            if chat:
+                return chat.get('invite_link', None)
+        return None
+        
     async def add_user(self, id, name):
         user = self.new_user(id, name)
         print(f"tempDict: {tempDict['indexDB']}\n\nDATABASE_URI: {DATABASE_URI}")
