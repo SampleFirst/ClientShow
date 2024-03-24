@@ -50,10 +50,11 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # Channels and groups 
-GRP_LNK = environ.get('GRP_LNK', 'https://t.me/+GOFte-Rz2tcxODg1')
-CHNL_LNK = environ.get('CHNL_LNK', 'https://t.me/+mCMdCb_ymAowZmNl')
+OFFICIAL_CHAT = environ.get('https://t.me/+yx2vFgjFg5M2MmNl')
+AFFILIATE_CHANNEL = environ.get('https://t.me/+qU9Bz5jbE1I0MjFl')
+UPDATE_CHANNEL = environ.get('https://t.me/+uH7KRoK4l1s4NjE9')
+SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'https://t.me/+ULFUrW5MNGM3YTM1')
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', 0))
-SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'DQ_The_File_Donor_Support')
 INDEX_REQ_CHANNEL = int(environ.get('INDEX_REQ_CHANNEL', LOG_CHANNEL))
 FILE_STORE_CHANNEL = [int(ch) for ch in (environ.get('FILE_STORE_CHANNEL', '')).split()]
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '0').split()]
