@@ -1,6 +1,6 @@
 import logging
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid, ChatAdminRequired
-from info import AUTH_CHANNEL, FILE_FORWARD, FILE_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTLINK_URL, SHORTLINK_API, LOG_CHANNEL, AFFILIATE_CHANNEL, CUSTOM_FILE_CAPTION, IS_VERIFY, VERIFY2_URL, VERIFY2_API, PROTECT_CONTENT, HOW_TO_VERIFY
+from info import AUTH_CHANNEL, FILE_FORWARD, FILE_CHANNEL, UPDATE_CHANNEL, SUPPORT_CHAT, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORTLINK_URL, SHORTLINK_API, LOG_CHANNEL, AFFILIATE_CHANNEL, CUSTOM_FILE_CAPTION, IS_VERIFY, VERIFY2_URL, VERIFY2_API, PROTECT_CONTENT, HOW_TO_VERIFY
 from imdb import Cinemagoer 
 import asyncio
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
@@ -625,44 +625,20 @@ async def send_all(bot, userid, files, ident):
         if f_caption is None:
             f_caption = f"{title}"
         try:
-            file_send = await client.send_cached_media(
-                chat_id=FILE_CHANNEL,
-                file_id=file_id,
-                caption=script.CHANNEL_CAP.format(query.from_user.mention, title, query.message.chat.title),
+            await bot.send_cached_media(
+                chat_id=userid,
+                file_id=file.file_id,
+                caption=f_caption,
                 protect_content=True if ident == "filep" else False,
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton("Update Channel", url=AFFILIATE_CHANNEL)
-                        ],
-                        [
-                            InlineKeyboardButton(f'Hindi', 'hin'),
-                            InlineKeyboardButton(f'Marathi', 'mar'),
-                            InlineKeyboardButton(f'Tamil', 'tam'),
-                            InlineKeyboardButton(f'Telugu', 'tel')
+                        InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=SUPPORT_CHAT),
+                        InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=UPDATE_CHANNEL)
                         ]
                     ]
                 )
             )
-            Joel_tgx = await client.send_text(
-                chat_id=userid,
-                script.FILE_MSG.format(query.from_user.mention, title, size),
-                parse_mode=enums.ParseMode.HTML,
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton('📥 𝖣𝗈𝗐𝗇𝗅𝗈𝖺𝖽 𝖫𝗂𝗇𝗄 📥', url=file_send.link)
-                        ],
-                        [
-                            InlineKeyboardButton("⚠️ 𝖢𝖺𝗇'𝗍 𝖠𝖼𝖼𝖾𝗌𝗌 ❓ 𝖢𝗅𝗂𝖼𝗄 𝖧𝖾𝗋𝖾 ⚠️", url=FILE_FORWARD)
-                        ]
-                    ]
-                )
-            )
-            return await query.answer('Check PM, I have sent files in File Channel')
-            await asyncio.sleep(600)
-            await Joel_tgx.delete()
-            await file_send.delete()
         except UserIsBlocked:
             logger.error(f"Usᴇʀ: {userid} ʙʟᴏᴄᴋᴇᴅ ᴛʜᴇ ʙᴏᴛ. Uɴʙʟᴏᴄᴋ ᴛʜᴇ ʙᴏᴛ!")
             return "Usᴇʀ ɪs ʙʟᴏᴄᴋᴇᴅ ᴛʜᴇ ʙᴏᴛ ! Uɴʙʟᴏᴄᴋ ᴛᴏ sᴇɴᴅ ғɪʟᴇs!"
