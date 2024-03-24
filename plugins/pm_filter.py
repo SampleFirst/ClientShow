@@ -40,11 +40,19 @@ SPELL_CHECK = {}
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     if message.chat.id == AFFILIATE_CHAT_ID:
-        bot = message.from_user.is_bot
-        await client.send_message(
-            chat_id=LOG_CHANNEL, 
-            text=f"Message from {bot} xyz:")
-
+        try:
+            if message.from_user.is_bot:
+                sender_type = "Bot"
+            else:
+                sender_type = "User"
+                
+            await client.send_message(
+                chat_id=LOG_CHANNEL,
+                text=f"Message from {sender_type}: {message.text}"
+            )
+        except Exception as e:
+            logger.error(f"Error occurred: {str(e)}")
+            
     if message.chat.id != SUPPORT_CHAT_ID:
         glob = await global_filters(client, message)
         if glob == False:
