@@ -48,19 +48,22 @@ class Database:
         tz = pytz.timezone('Asia/Kolkata')
         start = tz.localize(datetime.combine(today, datetime.min.time()))
         end = tz.localize(datetime.combine(today, datetime.max.time()))
-        count = await self.col.count_documents({
+        count = (await self.col.count_documents({
             'timestamp': {'$gte': start, '$lt': end}
-        })
+        }))+(await self.col.count_documents({
+            'timestamp': {'$gte': start, '$lt': end}
+        }))
         return count
-    
     
     async def daily_chats_count(self, today):
         tz = pytz.timezone('Asia/Kolkata')
         start = tz.localize(datetime.combine(today, datetime.min.time()))
         end = tz.localize(datetime.combine(today, datetime.max.time()))
-        count = await self.grp.count_documents({
+        count = (await self.grp.count_documents({
             'timestamp': {'$gte': start, '$lt': end}
-        })
+        }))+(await self.grp2.count_documents({
+            'timestamp': {'$gte': start, '$lt': end}
+        }))
         return count
     
     async def update_verification(self, id, date, time):
