@@ -1,4 +1,3 @@
-# https://github.com/odysseusmax/animated-lamp/blob/master/bot/database/database.py
 import motor.motor_asyncio
 from sample_info import tempDict
 from info import DATABASE_NAME, DATABASE_URI, IMDB, IMDB_TEMPLATE, MELCOW_NEW_USERS, P_TTI_SHOW_OFF, SINGLE_BUTTON, SPELL_CHECK_REPLY, PROTECT_CONTENT, AUTO_DELETE, MAX_BTN, AUTO_FFILTER, SHORTLINK_API, SHORTLINK_URL, IS_SHORTLINK, SECONDDB_URI
@@ -119,7 +118,6 @@ class Database:
         users_list = (await (self.col.find({})).to_list(length=None))+(await (self.col2.find({})).to_list(length=None))
         return users_list
     
-
     async def delete_user(self, user_id):
         user = await self.col.find_one({'id': int(user_id)})
         if user:
@@ -144,8 +142,6 @@ class Database:
         b_users += [user['id'] async for user in users]
         return b_users, b_chats
     
-
-
     async def add_chat(self, chat, title):
         chat = self.new_group(chat, title)
         print(f"tempDict: {tempDict['indexDB']}\n\nDATABASE_URI: {DATABASE_URI}")
@@ -154,14 +150,12 @@ class Database:
         else:
             await self.grp2.insert_one(chat)
     
-
     async def get_chat(self, id):
         chat = await self.grp.find_one({'id':int(id)})
         if not chat:
             chat = await self.grp2.find_one({'id':int(id)})
         return False if not chat else chat.get('chat_status')
     
-
     async def re_enable_chat(self, id):
         chat_status=dict(
             is_disabled=False,
@@ -180,7 +174,6 @@ class Database:
         else:
             await self.grp2.update_one({'id': int(id)}, {'$set': {'settings': settings}})
         
-    
     async def get_settings(self, id):
         default = {
             'button': SINGLE_BUTTON,
@@ -206,7 +199,6 @@ class Database:
                 return chat.get('settings', default)
         return default
     
-
     async def disable_chat(self, chat, reason="No Reason"):
         chat_status=dict(
             is_disabled=True,
@@ -218,19 +210,15 @@ class Database:
         else:
             await self.grp2.update_one({'id': int(chat)}, {'$set': {'chat_status': chat_status}})
     
-
     async def total_chat_count(self):
         count = (await self.grp.count_documents({}))+(await self.grp2.count_documents({}))
         return count
     
-
     async def get_all_chats(self):
         return ((await (self.grp.find({})).to_list(length=None))+(await (self.grp2.find({})).to_list(length=None)))
         
     async def get_db_size(self):
         return (await self.db.command("dbstats"))['dataSize']
-
-
 
 
 db = Database(DATABASE_NAME)
