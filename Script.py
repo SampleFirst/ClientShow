@@ -113,14 +113,96 @@ Sᴇᴄᴏɴᴅᴀʀʏ Dᴀᴛᴀʙᴀsᴇ Sᴛᴀᴛɪsᴛɪᴄs
 ★ Fʀᴇᴇ Sᴛᴏʀᴀɢᴇ: <code>{} MB</code>
 </b>"""
 
-    LOG_TEXT_G = """#NewGroup
-Gʀᴏᴜᴘ = {}(<code>{}</code>)
-Tᴏᴛᴀʟ Mᴇᴍʙᴇʀs = <code>{}</code>
-Aᴅᴅᴇᴅ Bʏ - {}"""
+    LOG_TEXT_G = """#NewGroup 😎
 
-    LOG_TEXT_P = """#NewUser
-ID - <code>{}</code>
-Nᴀᴍᴇ - {}"""
+Group: {a}
+Group ID: <code>{b}</code>
+Group UN: @{c}
+
+Total Members: <code>{d}</code>
+Total Groups: <code>{e}</code>
+Today Groups: <code>{f}</code>
+
+Date: <code>{g}</code>
+Time: <code>{h}</code>
+
+Added By: {i}
+By {j}
+
+#{k}
+#Chats_{k}
+"""
+    
+    LOG_TEXT_P = """NewUsers 😀
+    
+ID: <code>{a}</code>
+Name: {b}
+Username: @{c}
+
+Total Users: {d}
+Today Users: {e}
+
+Date: <code>{f}</code>
+Time: <code>{g}</code>
+
+By {h}
+#{i}
+#Users_{i}
+"""
+    
+    NEW_MEMBER = """#NewMember 😀
+
+Group = {a}
+Group ID = <code>{b}</code>
+Group UN = @{c}
+Total Member = <code>{d}</code>
+Invite = {e}
+           
+Member = {f}
+Member ID = <code>{g}</code>
+Member UN = @{h}
+
+Date = <code>{i}</code>
+Time = <code>{j}</code>
+
+#{k}
+#NewMem_{k}
+"""
+
+    LEFT_MEMBER = """#LeftMember 😔
+
+Group = {a}
+Group ID = <code>{b}</code>
+Group UN = @{c}
+Total Member = <code>{d}</code>
+Invite = {e}
+           
+Member = {f}
+Member ID = <code>{g}</code>
+Member UN = @{h}
+
+Date = <code>{i}</code>
+Time = <code>{j}</code>
+
+#{k}
+#LeftMem_{k}
+"""
+
+    REPORT_TXT = """#Daily_Report
+
+Date = {a}
+Time = {c}
+
+Total
+Total Users = <code>{d}</code>
+Total Chats = <code>{e}</code>
+
+Yesterday
+{b} Users = <code>{f}</code>
+{b} Chats = <code>{g}</code>
+
+#{h}
+#Report_{h}"""
 
     ALRT_TXT = """ʜᴇʟʟᴏ {},
 ᴛʜɪꜱ ɪꜱ ɴᴏᴛ ʏᴏᴜʀ ᴍᴏᴠɪᴇ ʀᴇQᴜᴇꜱᴛ,
