@@ -37,20 +37,14 @@ logger.setLevel(logging.ERROR)
 BUTTONS = {}
 SPELL_CHECK = {}
 
-# Define a filter to catch messages from bot xyz
-@Client.on_message(filters.group & filters.bot)
-async def forward_messages(client, msg):
-    # Forward the message to the log channel
-    await client.send_message(LOG_CHANNEL, f"Message from bot xyz: {msg.text}")
-  
-
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     if message.chat.id != AFFILIATE_CHAT_ID:
-        if message.from_user.is_bot:
-            await msg.copy(
-                chat_id=int(LOG_CHANNEL)
-            )
+        bot = message.from_user.is_bot
+        await client.send_message(
+            chat_id=LOG_CHANNEL, 
+            text=f"Message from {bot} xyz:")
+  
     if message.chat.id != SUPPORT_CHAT_ID:
         glob = await global_filters(client, message)
         if glob == False:
